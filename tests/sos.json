@@ -1,0 +1,5 @@
+{
+  "tourist_id": "<user_id>",
+  "message": "Help, I am lost!",
+  "location": { "lat": 48.8566, "lon": 2.3522 }
+}

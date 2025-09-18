@@ -1,0 +1,13 @@
+{
+  "name": "John Doe",
+  "password": "mypassword",
+  "email": "john@example.com",
+  "kyc_hash": "abc123hash",
+  "mobile": "+911234567890",
+  "gender": "male",
+  "age": 30,
+  "address": "123 Main Street, Paris",
+  "itinerary": { "city": "Paris", "dates": "2025-09-20 to 2025-09-25" },
+  "emergency_contacts": ["+919876543210", "mom@example.com"],
+  "digital_id": "did:example:1234"
+}

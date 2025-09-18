@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database with PostGIS
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: smart-tourist-db
+    environment:
+      POSTGRES_DB: smart_tourism
+      POSTGRES_USER: smart_user
+      POSTGRES_PASSWORD: smart_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./setup-db.sql:/docker-entrypoint-initdb.d/setup-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smart_user -d smart_tourism"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Smart Tourist API
+  api:
+    build: .
+    container_name: smart-tourist-api
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=smart_tourism
+      - DB_USER=smart_user
+      - DB_PASS=smart_password
+      - DB_SSL=false
+      - JWT_SECRET=your_super_secret_jwt_key_change_in_production
+      - PORT=5000
+      - CORS_ORIGIN=http://localhost:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: smart-tourist-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: smart-tourist-network

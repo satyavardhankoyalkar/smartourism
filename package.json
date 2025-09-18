@@ -1,0 +1,53 @@
+{
+  "name": "smart-tourist-api",
+  "version": "1.0.0",
+  "description": "Smart Tourist API for location tracking, alerts, and emergency services",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test-db.js",
+    "test:api": "node test-simple.js",
+    "setup:db": "powershell -ExecutionPolicy Bypass -File scripts/setup-database.ps1",
+    "install:postgres": "powershell -ExecutionPolicy Bypass -File scripts/install-postgresql.ps1",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.2",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.1"
+  },
+  "keywords": [
+    "tourist",
+    "api",
+    "location-tracking",
+    "emergency",
+    "sos",
+    "geofencing"
+  ],
+  "author": "Smart Tourist Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

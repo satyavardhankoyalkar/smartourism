@@ -1,0 +1,45 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "clean": "rimraf artifacts cache",
+    "compile": "hardhat compile",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.ts --network localhost",
+    "env:set:local": "powershell -NoProfile -Command \"$env:REGISTRY_ADDRESS=(Get-Content .deployed-local.json | ConvertFrom-Json).address; Write-Output $env:REGISTRY_ADDRESS\"",
+    "issue:local": "powershell -NoProfile -Command \"$addr=(Get-Content .deployed-local.json | ConvertFrom-Json).address; $env:REGISTRY_ADDRESS=$addr; npx hardhat run scripts/issue.ts --network localhost\"",
+    "verifyActive:local": "powershell -NoProfile -Command \"$addr=(Get-Content .deployed-local.json | ConvertFrom-Json).address; $env:REGISTRY_ADDRESS=$addr; $acc=(npx hardhat accounts --network localhost | Select-Object -First 1); npx hardhat run scripts/verifyActive.ts --network localhost\"",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "issue": "hardhat run scripts/issue.ts --network hardhat",
+    "panic": "hardhat run scripts/panic.ts --network hardhat",
+    "verifyActive": "hardhat run scripts/verifyActive.ts --network hardhat",
+    "revoke": "hardhat run scripts/revoke.ts --network hardhat",
+    "test": "hardhat test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
+    "@nomicfoundation/hardhat-ethers": "^3.1.0",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "chai": "^4.3.10",
+    "eslint": "^9.35.0",
+    "mocha": "^11.7.2",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.2",
+    "ethers": "^6.15.0"
+  }
+}
