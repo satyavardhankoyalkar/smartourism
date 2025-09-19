@@ -35,16 +35,22 @@ const pool = new Pool({
 
 // Absolute path to your SQL script
 const setupFile = path.join(process.cwd(), "scripts", "setup-db-updated.sql");
-
 (async () => {
   try {
-    const setupSQL = fs.readFileSync(setupFile, "utf8");
-    await pool.query(setupSQL);
-    console.log("✅ Database schema initialized");
+    // Check if the "tourist" table exists
+    const res = await pool.query("SELECT to_regclass('public.tourist')");
+    if (!res.rows[0].to_regclass) {
+      const setupSQL = fs.readFileSync(setupFile, "utf8");
+      await pool.query(setupSQL);
+      console.log("✅ Database schema initialized");
+    } else {
+      console.log("✅ Schema already exists, skipping setup");
+    }
   } catch (err) {
     console.error("❌ DB setup error:", err.message);
   }
 })();
+
 
 
 const __filename = fileURLToPath(import.meta.url);
