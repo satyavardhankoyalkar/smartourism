@@ -22,6 +22,28 @@ import responseRoutes from "./src/routes/responseRoutes.js";
 
 // Import database service
 import "./src/services/database.js";
+import fs from "fs";
+import path from "path";
+import { Pool } from "pg";
+
+// Connect to Render Postgres
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }  // needed for Render
+});
+
+// Absolute path to your SQL script
+const setupFile = path.join(process.cwd(), "scripts", "setup-db-updated.sql");
+
+(async () => {
+  try {
+    const setupSQL = fs.readFileSync(setupFile, "utf8");
+    await pool.query(setupSQL);
+    console.log("✅ Database schema initialized");
+  } catch (err) {
+    console.error("❌ DB setup error:", err.message);
+  }
+})();
 
 dotenv.config();
 
