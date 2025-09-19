@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
@@ -44,7 +46,6 @@ const setupFile = path.join(process.cwd(), "scripts", "setup-db-updated.sql");
   }
 })();
 
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
